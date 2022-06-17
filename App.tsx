@@ -5,6 +5,7 @@ import './style.css';
 const DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 
 export default function App() {
+  const [currentDate, setCurrentDate] = React.useState('');
   const [intervalHours, setIntervalHours] = React.useState(48);
   const [actionType, setActionType] = React.useState(2); //核酸采集时间 0 - 每天  1 - 单号  2 - 双号
   const [nextDate, setNextDate] = React.useState('');
@@ -26,14 +27,23 @@ export default function App() {
   const isOdd = ($d) => {
     return +$d.format('D') % 2 === 1;
   };
+  const handleConfirm = () => {
+    setNextDate(getNextDate(currentDate));
+  };
   React.useEffect(() => {
-    setNextDate(getNextDate('2022-05-30 19:00:00'));
+    handleConfirm();
   }, []);
   return (
     <div>
       <h1>Hello StackBlitz!</h1>
       <p>Start editing to see some magic happen :)</p>
       <h2>{nextDate}</h2>
+      <input
+        value={currentDate}
+        onChange={(e) => setCurrentDate(e.target.value)}
+        type="datetime-local"
+      />
+      <button onClick={handleConfirm}>确认</button>
     </div>
   );
 }
